@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# License protected MANO files
+MANO_*.pkl
+
+# Synthesis results
+synthesis
+
+# DeepSDF weights
+data/DeepSDF
