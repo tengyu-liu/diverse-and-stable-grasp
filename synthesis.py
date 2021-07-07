@@ -1,8 +1,6 @@
 import argparse
 import os
-import random
 
-import numpy as np
 import torch
 import trimesh as tm
 from plotly import graph_objects as go
@@ -22,12 +20,6 @@ parser.add_argument('--noise_size', default=0.1, type=float)
 parser.add_argument('--mano_path', default='data/mano', type=str)
 parser.add_argument('--output_dir', default='synthesis', type=str)
 args = parser.parse_args()
-
-# set random seeds
-np.seterr(all='raise')
-random.seed(0)
-np.random.seed(0)
-torch.manual_seed(0)
 
 from utils.HandModel import HandModel
 from utils.Losses import FCLoss
