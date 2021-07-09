@@ -12,7 +12,7 @@ We tested our code with `Python 3.8`, `PyTorch 1.9` and `CUDA 11.1`. However, th
 
 ## Download data
 * Signup and download the license-protected hand model file `MANO_RIGHT.pkl` from [http://mano.is.tue.mpg.de] and place it in `data/mano/`. 
-* Download DeepSDF model weights and other related files from [Google Drive]() and extract into `data/`
+* Download DeepSDF model weights and other related files from [Google Drive](https://drive.google.com/file/d/1GtH07I_4OtpCC_vzFUihRZJHsoj3KtHN/view?usp=sharing) and extract into `data/`
 
 ## Run
 Run `python synthesis.py` to run our grasp synthesis algorithm with 1024 parallel syntheses, a MANO hand, and spheres with random radius. Synthesized examples that satisfy the constraints in Eq. 11 are stored in `synthesis/`. The demo code `synthesis.py` supports the following arguments: 
