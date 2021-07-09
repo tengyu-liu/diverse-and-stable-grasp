@@ -19,13 +19,19 @@ class Decoder(nn.Module):
         xyz_in_all=None,
         use_tanh=False,
         latent_dropout=False,
+        predict_normal=False
     ):
         super(Decoder, self).__init__()
+
+        self.predict_normal = predict_normal
 
         def make_sequence():
             return []
 
         dims = [latent_size + 3] + dims + [1]
+
+        if predict_normal:
+            dims[-1] = 4
 
         self.num_layers = len(dims)
         self.norm_layers = norm_layers
@@ -102,5 +108,8 @@ class Decoder(nn.Module):
                 x = self.relu(x)
                 if self.dropout is not None and layer in self.dropout:
                     x = F.dropout(x, p=self.dropout_prob, training=self.training)
+
+        if self.predict_normal and hasattr(self, "th"):
+            x[:,-3:] = self.th(x[:,-3:])
 
         return x

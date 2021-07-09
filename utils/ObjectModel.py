@@ -7,7 +7,16 @@ import trimesh as tm
 
 
 class DeepSDFModel:
-    def __init__(self, state_dict_path="data/DeepSDF/2000.pth"):
+    def __init__(
+        self, 
+        state_dict_path="data/DeepSDF/2000.pth", 
+        predict_normal=False, 
+        code_path='data/DeepSDF/Reconstructions/2000/Codes/ShapeNetCore.v2/02876657',
+        mesh_path='data/DeepSDF/Reconstructions/2000/Meshes/ShapeNetCore.v2/02876657'):
+
+        self.code_path = code_path
+        self.mesh_path = mesh_path
+
         self.decoder = arch.Decoder(
             latent_size=256, 
             dims=[ 512, 512, 512, 512, 512, 512, 512, 512 ],
@@ -18,7 +27,8 @@ class DeepSDFModel:
             xyz_in_all=False,
             use_tanh=False,
             latent_dropout=False,
-            weight_norm=True
+            weight_norm=True, 
+            predict_normal=predict_normal
         )
 
         self.device = torch.device('cuda')
@@ -64,21 +74,18 @@ class DeepSDFModel:
         return x.detach(), normal
 
     def codes_ready(self):
-        code_path = 'data/DeepSDF/Reconstructions/2000/Codes/ShapeNetCore.v2/02876657'
-        mesh_path = 'data/DeepSDF/Reconstructions/2000/Meshes/ShapeNetCore.v2/02876657'
-
         _codes = []
         self._meshes = []
         self._mesh_fns = []
-        _fns = os.listdir(code_path)
+        _fns = os.listdir(self.code_path)
         skip = json.JSONDecoder().decode(open('data/DeepSDF/skip.json').read())
 
         for fn in _fns:
             if fn in skip:
                 continue
-            _codes.append(torch.load(os.path.join(code_path, fn)).squeeze().float().cuda())
-            self._meshes.append(tm.load(os.path.join(mesh_path, fn[:-4] + '_cd.obj'), force='mesh'))
-            self._mesh_fns.append(os.path.join(mesh_path, fn[:-3] + 'obj'))
+            _codes.append(torch.load(os.path.join(self.code_path, fn)).squeeze().float().cuda())
+            self._meshes.append(tm.load(os.path.join(self.mesh_path, fn[:-4] + '_cd.obj'), force='mesh'))
+            self._mesh_fns.append(os.path.join(self.mesh_path, fn[:-3] + 'obj'))
 
         self.codes = torch.stack(_codes, 0)
 

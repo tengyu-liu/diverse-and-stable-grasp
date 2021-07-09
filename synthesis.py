@@ -1,6 +1,8 @@
 import argparse
 import os
+import random
 
+import numpy as np
 import torch
 import trimesh as tm
 from plotly import graph_objects as go
@@ -21,6 +23,12 @@ parser.add_argument('--mano_path', default='data/mano', type=str)
 parser.add_argument('--output_dir', default='synthesis', type=str)
 args = parser.parse_args()
 
+# set random seeds
+np.seterr(all='raise')
+random.seed(0)
+np.random.seed(0)
+torch.manual_seed(0)
+
 from utils.HandModel import HandModel
 from utils.Losses import FCLoss
 from utils.ObjectModel import DeepSDFModel, SphereModel
@@ -29,7 +37,11 @@ from utils.PhysicsGuide import PhysicsGuide
 
 # prepare models
 if args.obj_model == 'bottle':
-    object_model = DeepSDFModel()
+    object_model = DeepSDFModel(
+        predict_normal=False, 
+        state_dict_path="data/DeepSDF/2000.pth",
+        code_path = 'data/DeepSDF/Reconstructions/2000/Codes/ShapeNetCore.v2/02876657',
+        mesh_path = 'data/DeepSDF/Reconstructions/2000/Meshes/ShapeNetCore.v2/02876657')
     object_code, object_idx = object_model.get_obj_code_random(args.batch_size)
 elif args.obj_model == 'sphere':
     object_model = SphereModel()
