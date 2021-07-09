@@ -3,7 +3,7 @@ This repository shares the code to replicate results from the paper **Synthesizi
 
 We tested our code with `Python 3.8`, `PyTorch 1.9` and `CUDA 11.1`. However, the code should work with any recent version of PyTorch. 
 
-## Prerequisites
+## Dependencies
 * Numpy
 * Trimesh
 * Plotly
