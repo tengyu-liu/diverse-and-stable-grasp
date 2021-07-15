@@ -1,5 +1,5 @@
 # diverse-and-stable-grasp
-This repository shares the code to replicate results from the paper **Synthesizing Diverse and Physically Stable Grasps with Arbitrary Hand Structures using Differentiable Force Closure Estimation** [[link](https://arxiv.org/abs/2104.09194)]
+This repository shares the code to replicate results from the paper **Synthesizing Diverse and Physically Stable Grasps with Arbitrary Hand Structures using Differentiable Force Closure Estimation** [[arxiv](https://arxiv.org/abs/2104.09194)] [[project](https://sites.google.com/view/ral2021-grasp/home)]
 
 We tested our code with `Python 3.8`, `PyTorch 1.9` and `CUDA 11.1`. However, the code should work with any recent version of PyTorch. 
 
